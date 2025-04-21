@@ -696,3 +696,17 @@ WHERE `TIME` ='2024-12-31'
 SELECT * from  market_cap_weighted_return
 ORDER BY market_cap_percent DESC;
 
+select * from `Cash_Flow`
+where ticker = 'VIC';
+ALTER View  FCF AS
+SELECT  CP.industry,
+        CF.ticker symbol,
+        CF.`yearReport` year,
+        CF.`Net cash inflows/outflows from operating activities` OCF,
+        (CF.`Purchase of fixed assets` + CF.`Proceeds from disposal of fixed assets`) as CAPEX,
+        (CF.`Net cash inflows/outflows from operating activities` - (CF.`Purchase of fixed assets` + CF.`Proceeds from disposal of fixed assets`))   FCF
+FROM `Cash_Flow` CF
+JOIN Company_profile CP
+ON CF.ticker = CP.symbol
+
+select * from FCF
