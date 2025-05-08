@@ -665,14 +665,17 @@ WHERE symbol = 'ACB';
 select * from `Stock_returns_05_25`;
 
 ALTER VIEW view_finance_ratio AS 
-SELECT CP           'Symbol',
-        concat(`Kỳ`,'/',`Năm`)      'Quarter',
-        `P/E`        'P/E',
-        `P/B`       'P/B',    
-        `EPS (VND)`     'EPS'
-from finance_ratio;
-
-SELECT * from view_finance_ratio;
+SELECT  CP.industry    ,    
+        FR.CP           'Symbol',
+        FR.`Kỳ`      'Quarter',
+        FR.`Năm`                    'Year',
+        FR.`P/E`        'P/E',
+        FR.`P/B`       'P/B',    
+        FR.`EPS (VND)`     'EPS'
+from finance_ratio FR
+LEFT JOIN Company_profile CP
+on FR.CP = CP.symbol;
+SELECT DISTINCT(industry) from view_finance_ratio;
 
 ALTER VIEW Stock_returns_12_23 AS
 select  Symbol,
